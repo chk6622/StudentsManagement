@@ -1,0 +1,75 @@
+﻿@model StudentEditViewModel
+
+
+@{
+    ViewBag.Title = "Edit Student";
+}
+
+
+    <form enctype="multipart/form-data" asp-controller="home" asp-action="Update" method="post" class="mt-3">
+        <input hidden asp-for="Id"/>
+        <input hidden asp-for="ImagePath"/>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group row">
+            <img class="card-img-top img" src="@Model.getImagePathUrl()[0]" asp-append-version="true" />
+        </div>
+        <div class="form-group row">
+            <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Name" class="form-control" placeholder="Place input student's name" />
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Email" class="form-control" placeholder="Place input student's email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ClassName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select asp-for="ClassName" asp-items="Html.GetEnumSelectList<ClassNameEnum>()" class="custom-select mr-sm-2" placeholder="Place input student's classname">
+                    <option value="">Please Select...</option>
+                </select>
+                <span asp-validation-for="ClassName"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Photos" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="custom-file">
+                    <input asp-for="Photos" multiple class="form-control custom-file-input" placeholder="Place select student's photo" />
+                    <label class="custom-file-label">Place select student's photo...</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <a href="/home/index" class="btn btn-primary">Return</a>
+                @*<a href="#" class="btn btn-primary submit">Edit</a>*@
+                <input type="submit"  value="Edit" class="btn btn-primary submit"/>
+                <a href="/home/delete" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+
+        @section Scripts{
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.custom-file-input').on('change', function () {
+                        /*var fileName = $(this).val().split('\\').pop();
+                         $(this).next('.custom-file-label').html(fileName);*/
+                        var fileLabel = $(this).next('.custom-file-label')
+                        var files = $(this)[0].files;
+                        if (files.length > 1) {
+                            fileLabel.html(files.length + ' files have selected');
+                        }
+                        else if (files.length == 1) {
+                            fileLabel.html(files[0].name);
+                        }
+                    });
+                });
+            </script>
+        }
+    </form>
